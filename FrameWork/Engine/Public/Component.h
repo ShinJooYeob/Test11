@@ -13,6 +13,7 @@ protected:
 
 public:
 	virtual HRESULT NativeConstruct_Prototype();
+	//깃 누가 쉽다했냐 
 	virtual HRESULT NativeConstruct(void* pArg);
 
 protected:

@@ -16,6 +16,7 @@ CGameInstance::CGameInstance()
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pInput_Device);
 	Safe_AddRef(m_pTimer_Manager);
+	//수 정 가능한거지?
 }
 
 HRESULT CGameInstance::Initialize_Engine(HINSTANCE hInstance, const CGraphic_Device::GRAPHICDESC & GraphicDesc, _uint iNumLevels, LPDIRECT3DDEVICE9* ppOut)
