@@ -10,7 +10,8 @@ public:
 	CLayer();
 	virtual ~CLayer() = default;
 public:
-	HRESULT Add_GameObject(class CGameObject* pGameObject);
+	HRESULT			Add_GameObject(class CGameObject* pGameObject);
+	CGameObject*	Get_GameObjet();
 	_int Tick(_float fTimeDelta);
 	_int LateTick(_float fTimeDelta);
 

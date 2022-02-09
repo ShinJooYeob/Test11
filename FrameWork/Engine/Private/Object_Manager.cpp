@@ -64,6 +64,19 @@ HRESULT CObject_Manager::Add_GameObject(_uint iLevelIndex, const _tchar * pLayer
 	return S_OK;
 }
 
+CGameObject * CObject_Manager::Find_GameObject_In_Layer(_uint iLevelIndex, const _tchar * pLayerTag)
+{
+	if (iLevelIndex >= m_iNumLevels)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, pLayerTag);
+
+	if (pLayer == nullptr)
+		return nullptr;
+
+	return pLayer->Get_GameObjet();
+}
+
 HRESULT CObject_Manager::Clear_LevelObject(_uint iLevelIndex)
 {
 	if (iLevelIndex >= m_iNumLevels)

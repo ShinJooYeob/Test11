@@ -40,6 +40,12 @@ public: /* For.Level_Manager */
 public: /* For.Object_Manager */
 	HRESULT Add_Prototype(const _tchar* pPrototypeTag, class CGameObject* pPrototype); /* 원형객체를 추가한다. */
 	HRESULT Add_GameObject(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pPrototypeTag, void* pArg = nullptr); /* 사본(게임내에 출현해야할 객체) 객체를 추가한다. */
+	
+																														   
+	//////////////////////////////////////////////////////////////////////////
+	CGameObject* Find_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
+
+
 
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);

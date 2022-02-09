@@ -63,9 +63,21 @@ HRESULT CTerrain::Render()
 	if (FAILED(m_pTransformCom->Bind_OnGraphicDevice()))
 		return E_FAIL;
 
+
+	if (FAILED(m_pTextureCom->Bind_OnGraphicDevice()))
+		return E_FAIL;
+
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+_float CTerrain::PointInTerrain(_float3 vPos)
+{
+	if (nullptr == m_pVIBufferCom)
+		return 0;
+
+	return m_pVIBufferCom->PointOnTerrain(vPos);
 }
 
 HRESULT CTerrain::SetUp_Components()
@@ -87,6 +99,9 @@ HRESULT CTerrain::SetUp_Components()
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"), TEXT("Com_VIBuffer"), (CComponent**)&m_pVIBufferCom)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"), TEXT("Com_Texture"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	
@@ -126,6 +141,7 @@ void CTerrain::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 }

@@ -37,6 +37,9 @@
     <Filter Include="02.GameObjects\Terrain">
       <UniqueIdentifier>{ba685d1e-8ccc-41ee-ad00-e1f6233b24e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Player">
+      <UniqueIdentifier>{798d380b-2b73-44eb-a056-d8ee4acbe462}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -81,6 +84,9 @@
     <ClInclude Include="..\Public\Terrain.h">
       <Filter>02.GameObjects\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02.GameObjects\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -112,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Terrain.cpp">
       <Filter>02.GameObjects\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player.cpp">
+      <Filter>02.GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

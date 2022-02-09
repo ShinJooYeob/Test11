@@ -17,6 +17,10 @@ public:
 	HRESULT Reserve_Container(_uint iNumLevels);
 	HRESULT Add_Prototype(const _tchar* pPrototypeTag, class CGameObject* pPrototype); /* 원형객체를 추가한다. */
 	HRESULT Add_GameObject(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pPrototypeTag, void* pArg); /* 사본(게임내에 출현해야할 객체) 객체를 추가한다. */
+
+	//////////////////////////////////////////////////////////////////////////
+	CGameObject* Find_GameObject_In_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
+	
 	HRESULT Clear_LevelObject(_uint iLevelIndex);
 public:
 	_int Tick(_float fTimeDelta);

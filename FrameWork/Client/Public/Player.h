@@ -7,18 +7,17 @@ BEGIN(Engine)
 class CTexture;
 class CRenderer;
 class CTransform;
-class CVIBuffer_Terrain;
-
+class CVIBuffer_Rect;
 END
 
 BEGIN(Client)
 
-class CTerrain final : public CGameObject
+class CPlayer final : public CGameObject
 {
 private:
-	explicit CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device);
-	explicit CTerrain(const CTerrain& rhs);
-	virtual ~CTerrain() = default;
+	explicit CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
+	explicit CPlayer(const CPlayer& rhs);
+	virtual ~CPlayer() = default;
 public:
 	virtual HRESULT NativeConstruct_Prototype() override;
 	virtual HRESULT NativeConstruct(void* pArg) override;
@@ -26,14 +25,12 @@ public:
 	virtual _int LateTick(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	_float PointInTerrain(_float3 vPos);
-
 private:
 	/* 텍스쳐 */
-	CTexture*				m_pTextureCom = nullptr;
+	CTexture*			m_pTextureCom = nullptr;
 
 	/* 모델 */
-	CVIBuffer_Terrain*		m_pVIBufferCom = nullptr;
+	CVIBuffer_Rect*		m_pVIBufferCom = nullptr;
 
 	/* 상태 (위치, 크기, 회전) */
 	CTransform*			m_pTransformCom = nullptr;
@@ -47,9 +44,10 @@ private:
 
 
 public:
-	static CTerrain* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };
 
 END
+

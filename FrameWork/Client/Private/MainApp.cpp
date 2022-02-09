@@ -39,7 +39,6 @@ HRESULT CMainApp::NativeConstruct()
 	if (FAILED(OpenLevel(LEVEL_LOGO)))
 		return E_FAIL;
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	return S_OK;
 }
@@ -122,8 +121,18 @@ HRESULT CMainApp::DefaultSetting()
 	if (nullptr == m_pGraphic_Device)
 		return E_FAIL;
 
+	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	/* 그리는 상태를 셋팅한다. */
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
 	return S_OK;
 }
@@ -159,6 +168,7 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	/* For.Prototype_Component_Texture_Default */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Default"), CTexture::Create(m_pGraphic_Device, CTexture::TYPE_DEFAULT, TEXT("../Bin/Resources/Textures/Default.jpg")))))
 		return E_FAIL;
+
 
 	Safe_AddRef(m_pRenderer);
 

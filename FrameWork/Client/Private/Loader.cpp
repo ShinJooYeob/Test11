@@ -2,6 +2,7 @@
 #include "..\Public\Loader.h"
 #include "GameInstance.h"
 
+#include "Player.h"
 #include "Terrain.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -55,8 +56,14 @@ HRESULT CLoader::Loading_ForGamePlay()
 	/* 원형컴포넌트를 생성한다. */
 #pragma region PROTOTYPE_COMPONENT
 
-	/* For.Prototype_Component_VIBuffer_Terrain */
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"), CVIBuffer_Terrain::Create(m_pGraphic_Device, 129, 129))))
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"), CTexture::Create(m_pGraphic_Device, CTexture::TYPE_DEFAULT, TEXT("../Bin/Resources/Textures/Terrain/Grass_%d.tga"),2))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"), CTexture::Create(m_pGraphic_Device, CTexture::TYPE_DEFAULT, TEXT("../Bin/Resources/Textures/Player/idle_ani.png")))))
+		return E_FAIL;
+
+		/* For.Prototype_Component_VIBuffer_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"), CVIBuffer_Terrain::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
 		return E_FAIL;	
 
 #pragma endregion
@@ -64,7 +71,12 @@ HRESULT CLoader::Loading_ForGamePlay()
 #pragma  region PROTOTYPE_GAMEOBJECT
 	/* 원형객체를 생성한다. */
 	/* For.Prototype_GameObject_Terrain */
+
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"), CTerrain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion
