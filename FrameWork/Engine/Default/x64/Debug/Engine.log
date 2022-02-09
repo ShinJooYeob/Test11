@@ -1,0 +1,25 @@
+﻿  VIBuffer_Terrain.cpp
+c:\users\tls63\documents\git\aproject\framework\engine\private\vibuffer_terrain.cpp(40): warning C4244: '인수': 'Engine::_uint'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  VIBuffer_Rect.cpp
+  VIBuffer.cpp
+  Transform.cpp
+  Timer_Manager.cpp
+  Timer.cpp
+  Texture.cpp
+  Renderer.cpp
+  Object_Manager.cpp
+  Level_Manager.cpp
+  Level.cpp
+  Layer.cpp
+  Input_Device.cpp
+  Graphic_Device.cpp
+  GameObject.cpp
+  GameInstance.cpp
+  Component_Manager.cpp
+  Component.cpp
+  Camera.cpp
+  Base.cpp
+  코드를 생성하고 있습니다...
+     ..\Bin\Engine.lib 라이브러리 및 ..\Bin\Engine.exp 개체를 생성하고 있습니다.
+  Engine.vcxproj -> C:\Users\tls63\Documents\Git\Aproject\FrameWork\Engine\Default\..\Bin\Engine.dll
+  Engine.vcxproj -> ..\Bin\Engine.pdb (Full PDB)
