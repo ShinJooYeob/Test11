@@ -57,6 +57,11 @@ _int CCamera_Main::Update(_float fDeltaTime)
 		m_pTransform->Move_Right(fDeltaTime);
 	}
 
+	if (pInstance->Get_DIMouseButtonState(CInput_Device::MBS_LBUTTON) & DIS_Press) 
+	{
+		///
+	}
+
 	if (pInstance->Get_DIMouseButtonState(CInput_Device::MBS_RBUTTON) & DIS_DoubleDown)
 	{
 		Change_Camera_Demension();
