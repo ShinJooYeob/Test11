@@ -35,8 +35,9 @@ private:
 	CVIBuffer_Rect*			m_ComVIBuffer = nullptr;
 	CRenderer*				m_ComRenderer = nullptr;
 
-
-	_float					m_fLevitationTime = 0;
+	_bool					m_bIsJumped = false;
+	_float					m_fJumpPower = 5.f;
+	_float					m_fNowJumpPower = 0.f;
 
 
 private:

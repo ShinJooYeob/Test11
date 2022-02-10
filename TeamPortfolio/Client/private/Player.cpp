@@ -32,6 +32,9 @@ HRESULT CPlayer::Initialize_Clone(void * pArg)
 	if (FAILED(SetUp_Components()))
 		return E_FAIL;
 
+
+	m_fJumpPower = 10.f;
+
 	return S_OK;
 }
 
@@ -67,15 +70,20 @@ _int CPlayer::Update(_float fDeltaTime)
 	{
 
 		 
-		if (!m_fLevitationTime && pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
+		//if (!m_bIsJumped && pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
+		if (pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
 		{
+			m_fNowJumpPower = m_fJumpPower;
+			m_bIsJumped = true;
+
 			m_ComTransform->MovetoTarget(m_ComTransform->Get_MatrixState(CTransform::STATE_POS) + _float3(0, 1.f, 0), fDeltaTime);
-		
 		}
-		else if(m_fLevitationTime > 0 && m_fLevitationTime < 0.5f)
-		{
-			m_ComTransform->MovetoTarget(m_ComTransform->Get_MatrixState(CTransform::STATE_POS) + _float3(0, 1.f, 0), m_fLevitationTime);
-		}
+		//else {
+		//	m_fNowJumpPower += m_fJumpPower * fDeltaTime * 0.5f;
+		//}
+
+
+
 	}
 
 
@@ -179,20 +187,30 @@ HRESULT CPlayer::Set_PosOnTerrain(_float fDeltaTime)
 	{
 		if (vPlayerPos.y > vResultPos.y) //지형보다 플레이어가 위에 있다면
 		{
-			m_fLevitationTime += fDeltaTime;
-			vResultPos.y = vPlayerPos.y - m_fLevitationTime;
+
+			m_fNowJumpPower -= fDeltaTime * m_fJumpPower ;
+
+			//경과 시간
+			//1 - (m_fNowJumpPower / m_fJumpPower);
+
+			_float Time = 1 - (m_fNowJumpPower / m_fJumpPower);
+			
+			_float Temp = vPlayerPos.y + (m_fNowJumpPower - Time*Time * m_fJumpPower)*fDeltaTime;
+
+			vResultPos.y = (Temp > vResultPos.y)? Temp : vResultPos.y;
 		}
 		else //지형에 닿았다면
 		{
-			m_fLevitationTime = 0;
+			m_fNowJumpPower = 0;
+			m_bIsJumped = false;
 		}
 		m_ComTransform->Set_MatrixState(CTransform::STATE_POS, vResultPos);
 
 	}
 	else //지형 밖으로 넘어갔을 경우
 	{
-		m_fLevitationTime = 0;
-
+		m_fNowJumpPower = 0;
+		m_bIsJumped = true;
 	}
 
 
