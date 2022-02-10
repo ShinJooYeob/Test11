@@ -28,6 +28,7 @@ protected:
 
 protected:
 	LPDIRECT3DDEVICE9			m_pGraphicDevice = nullptr;
+	_bool						m_bIsClone = false;
 
 protected:
 	HRESULT Add_Component(_uint iScenenNum, const _tchar* tagPrototype,const _tchar* tagComponent, CComponent** ppOut , void* pArg =nullptr);

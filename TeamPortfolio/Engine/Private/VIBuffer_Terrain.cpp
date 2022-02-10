@@ -84,6 +84,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Protoype(void * pArg)
 		return E_FAIL;
 
 	VTXNORMTEX* pVertices = nullptr;
+	m_pVertices = new VTXNORMTEX[m_iNumVertices];
 
 	m_pVB->Lock(0, 0, (void**)(&pVertices), 0);
 
@@ -112,6 +113,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Protoype(void * pArg)
 				
 	}
 
+	memcpy(m_pVertices, pVertices, sizeof(VTXNORMTEX)*m_iNumVertices);
 
 	m_pVB->Unlock();
 
@@ -180,8 +182,7 @@ HRESULT CVIBuffer_Terrain::PointInTerrain(_float3 * pOut, _float3 vPos,_Matrix T
 
 	D3DXPLANE tPlane;
 
-	VTXNORMTEX*			pVertices = nullptr;
-	m_pVB->Lock(0, 0, (void**)&pVertices, 0);
+	VTXNORMTEX*			pVertices = (VTXNORMTEX*)m_pVertices;
 
 	if (pVertices[iIndex[2]].vPosition.z - vPos.z > vPos.x - pVertices[iIndex[2]].vPosition.x)
 	{
@@ -195,7 +196,6 @@ HRESULT CVIBuffer_Terrain::PointInTerrain(_float3 * pOut, _float3 vPos,_Matrix T
 			&(pVertices[iIndex[3]].vPosition), &(pVertices[iIndex[1]].vPosition));
 	}
 
-	m_pVB->Unlock();
 
 	*pOut = _float3(vPos.x, (tPlane.a * vPos.x + tPlane.c * vPos.z + tPlane.d) / -tPlane.b, vPos.z).PosVector_Matrix(TerrainInversWorldMatrix.InverseMatrix());
 

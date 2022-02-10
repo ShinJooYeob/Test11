@@ -39,6 +39,7 @@ protected:
 	//인덱스 하나의 byte
 	D3DFORMAT						m_eIndexFormat;
 
+	void*							m_pVertices = nullptr;
 
 protected:
 	HRESULT Create_VertexBuffer();

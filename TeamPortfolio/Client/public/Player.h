@@ -39,12 +39,17 @@ private:
 	_float					m_fJumpPower = 5.f;
 	_float					m_fNowJumpPower = 0.f;
 
+private:
+	_float			m_fFrame = 0.f;
 
 private:
 	HRESULT			SetUp_Components();
 	HRESULT			Jump(_float fDeltaTime);
 	HRESULT			Set_PosOnTerrain(_float fDeltaTime);
 
+
+	HRESULT SetUp_RenderState();
+	HRESULT Release_RenderState();
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphicDevice, void* pArg = nullptr);

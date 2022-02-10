@@ -43,6 +43,11 @@ _int CPlayer::Update(_float fDeltaTime)
 	if (FAILED(__super::Update(fDeltaTime)))
 		return E_FAIL;
 
+	m_fFrame += 12.0f * fDeltaTime;
+
+	if (m_fFrame >= 12.0f)
+		m_fFrame = 0.f;
+
 	CGameInstance* pInstance = GetSingle(CGameInstance);
 
 	if (pInstance->Get_DIKeyState(DIK_UP) & DIS_Press)
@@ -66,25 +71,23 @@ _int CPlayer::Update(_float fDeltaTime)
 		m_ComTransform->Move_Right(fDeltaTime);
 	}
 
-	if (pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Press)
-	{
 
 		 
-		//if (!m_bIsJumped && pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
-		if (pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
-		{
-			m_fNowJumpPower = m_fJumpPower;
-			m_bIsJumped = true;
+	//if (!m_bIsJumped && pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
+	if (pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
+	{
+		m_fNowJumpPower = m_fJumpPower;
+		m_bIsJumped = true;
 
-			m_ComTransform->MovetoTarget(m_ComTransform->Get_MatrixState(CTransform::STATE_POS) + _float3(0, 1.f, 0), fDeltaTime);
-		}
-		//else {
-		//	m_fNowJumpPower += m_fJumpPower * fDeltaTime * 0.5f;
-		//}
-
-
-
+		m_ComTransform->MovetoTarget(m_ComTransform->Get_MatrixState(CTransform::STATE_POS) + _float3(0, 1.f, 0), fDeltaTime);
 	}
+	//else {
+	//	m_fNowJumpPower += m_fJumpPower * fDeltaTime * 0.5f;
+	//}
+
+
+
+	
 
 
 	return _int();
@@ -118,11 +121,18 @@ _int CPlayer::Render()
 	 if (FAILED(m_ComTransform->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	if (FAILED(m_ComTexture->Bind_Texture()))
+	if (FAILED(m_ComTexture->Bind_Texture((_uint)m_fFrame)))
+		return E_FAIL;
+
+	if (FAILED(SetUp_RenderState()))
 		return E_FAIL;
 
 	if (FAILED(m_ComVIBuffer->Render()))
 		return E_FAIL;
+
+	if (FAILED(Release_RenderState()))
+		return E_FAIL;
+
 
 
 	return _int();
@@ -188,7 +198,7 @@ HRESULT CPlayer::Set_PosOnTerrain(_float fDeltaTime)
 		if (vPlayerPos.y > vResultPos.y) //지형보다 플레이어가 위에 있다면
 		{
 
-			m_fNowJumpPower -= fDeltaTime * m_fJumpPower ;
+			m_fNowJumpPower -= fDeltaTime * m_fJumpPower *2.f;
 
 			//경과 시간
 			//1 - (m_fNowJumpPower / m_fJumpPower);
@@ -218,6 +228,31 @@ HRESULT CPlayer::Set_PosOnTerrain(_float fDeltaTime)
 	return S_OK;
 }
 
+HRESULT CPlayer::SetUp_RenderState()
+{
+	if (nullptr == m_pGraphicDevice)
+		return E_FAIL;
+
+	//m_pGraphicDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//m_pGraphicDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	//m_pGraphicDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//m_pGraphicDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	m_pGraphicDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDevice->SetRenderState(D3DRS_ALPHAREF, 100);
+	m_pGraphicDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Release_RenderState()
+{
+	//m_pGraphicDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	return S_OK;
+}
 
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDevice, void * pArg)

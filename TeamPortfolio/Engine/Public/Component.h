@@ -18,6 +18,7 @@ public:
 
 protected:
 	LPDIRECT3DDEVICE9 m_pGraphicDevice = nullptr;
+	_bool				m_bIsClone = false;
 
 
 

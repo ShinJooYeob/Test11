@@ -88,7 +88,8 @@ HRESULT CLoader::Load_Scene_StageSelect(_bool * _IsClientQuit, CRITICAL_SECTION 
 
 	//Player Texture
 	CTexture::TEXTUREDESC TextureDesc;
-	TextureDesc.szFilePath = TEXT("../Bin/Resources/Textures/Player/idle_ani.png");
+	TextureDesc.szFilePath = TEXT("../Bin/Resources/Textures/Player/AKIHA_AKI00_00%d.png");
+	TextureDesc.m_iNumTexture = 12;
 
 	if (FAILED(pGameInstance->Add_Component_Prototype(m_eSceneID, TEXT("Prototype_Component_Texture_Player"), CTexture::Create(m_pGraphicDevice, &TextureDesc))))
 		return E_FAIL;

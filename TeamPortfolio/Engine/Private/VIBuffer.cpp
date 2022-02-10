@@ -4,7 +4,7 @@
 
 
 CVIBuffer::CVIBuffer(LPDIRECT3DDEVICE9 pGraphicDevice)
-	:CComponent(pGraphicDevice)
+	:CComponent(pGraphicDevice), m_pVertices(nullptr)
 {
 }
 
@@ -18,7 +18,8 @@ CVIBuffer::CVIBuffer(const CVIBuffer & rhs)
 	m_eDrawPrimitive(rhs.m_eDrawPrimitive),
 	m_iNumPrimitive(rhs.m_iNumPrimitive),
 	m_iIndicesSize(rhs.m_iIndicesSize),
-	m_eIndexFormat(rhs.m_eIndexFormat)
+	m_eIndexFormat(rhs.m_eIndexFormat),
+	m_pVertices(rhs.m_pVertices)
 
 {
 
@@ -113,6 +114,9 @@ HRESULT CVIBuffer::Create_IndexBuffer()
 void CVIBuffer::Free()
 {
 	__super::Free();
+
+	if (!m_bIsClone)
+		Safe_Delete_Array(m_pVertices);
 
 	Safe_Release(m_pVB);
 	Safe_Release(m_pIB);
