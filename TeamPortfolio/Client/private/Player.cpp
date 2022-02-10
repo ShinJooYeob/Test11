@@ -115,7 +115,7 @@ _int CPlayer::LateUpdate(_float fDeltaTime)
 _int CPlayer::Render()
 {
 	if (FAILED(__super::Render()))
-		return E_FAIL;
+		return E_FAIL; 
 
 	 
 	 if (FAILED(m_ComTransform->Bind_WorldMatrix()))
