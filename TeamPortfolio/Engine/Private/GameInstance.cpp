@@ -112,6 +112,30 @@ HRESULT CGameInstance::Add_GameObject_To_Layer(_uint eSceneNum, const _tchar * t
 	return	m_pObjectMgr->Add_GameObject_To_Layer(eSceneNum, tagLayer, tagPrototype, pArg);
 }
 
+CComponent* CGameInstance::Get_Commponent_By_LayerIndex(_uint eSceneNum, const _tchar * tagLayer, const _tchar* tagComponet, _uint iLayerIndex)
+{
+	if (tagComponet == nullptr || tagLayer == nullptr|| m_pObjectMgr == nullptr)
+		return nullptr;
+
+	return m_pObjectMgr->Get_Commponent_By_LayerIndex(eSceneNum, tagLayer, tagComponet,iLayerIndex);
+}
+
+CGameObject * CGameInstance::Get_GameObject_By_LayerIndex(_uint eSceneNum, const _tchar * tagLayer, _uint iLayerIndex)
+{
+	if (tagLayer == nullptr || m_pObjectMgr == nullptr)
+		return nullptr;
+
+	return m_pObjectMgr->Get_GameObject_By_LayerIndex(eSceneNum, tagLayer,iLayerIndex);
+}
+
+CLayer * CGameInstance::Get_Layer(_uint eSceneNum, const _tchar * tagLayer)
+{
+	if (tagLayer == nullptr || m_pObjectMgr == nullptr)
+		return nullptr;
+
+	return m_pObjectMgr->Get_Layer(eSceneNum, tagLayer);
+}
+
 
 _float CGameInstance::Get_DeltaTime(const _tchar * tagTimer)
 {

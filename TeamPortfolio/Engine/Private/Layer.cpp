@@ -15,6 +15,7 @@ HRESULT CLayer::Add_GameObject(CGameObject * pGameObject)
 
 _int CLayer::Update(_float fDeltaTime)
 {
+
 	for (auto& pGameObject : m_ObjectList) 
 	{
 
@@ -35,6 +36,33 @@ _int CLayer::LateUpdate(_float fDeltaTime)
 
 	}
 	return _int();
+}
+
+CComponent * CLayer::Get_Commponent_By_LayerIndex(const _tchar* tagComponet, _uint iLayerIndex)
+{
+	if (iLayerIndex >= m_ObjectList.size())
+		return nullptr;
+
+	auto iter = m_ObjectList.begin();
+
+	for (_uint i = 0; i<iLayerIndex;i++)
+		iter++;
+
+	
+	return (*iter)->Find_Components(tagComponet);
+}
+
+CGameObject * CLayer::Get_GameObject_By_LayerIndex(_uint iLayerIndex)
+{
+	if (iLayerIndex >= m_ObjectList.size())
+		return nullptr;
+
+	auto iter = m_ObjectList.begin();
+
+	for (_uint i = 0; i < iLayerIndex; i++)
+		iter++;
+
+	return (*iter);
 }
 
 

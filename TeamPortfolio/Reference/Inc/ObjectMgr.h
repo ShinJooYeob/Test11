@@ -5,6 +5,7 @@ BEGIN(Engine)
 
 class CLayer;
 class CGameObject;
+class CComponent;
 
 class CObjectMgr final :public CBase
 {
@@ -20,6 +21,10 @@ public:
 	HRESULT Add_GameObject_Prototype(const _tchar* tagPrototype, CGameObject* pPrototype);
 	HRESULT Add_GameObject_To_Layer(_uint eSceneNum, const _tchar* tagLayer, const _tchar* tagPrototype, void* pArg);
 	HRESULT Clear_Scene_GameObjects(_uint eSceneNum);
+
+	CComponent*		Get_Commponent_By_LayerIndex(_uint eSceneNum, const _tchar* tagLayer, const _tchar* tagComponet, _uint iLayerIndex);
+	CGameObject*	Get_GameObject_By_LayerIndex(_uint eSceneNum, const _tchar* tagLayer, _uint iLayerIndex);
+	CLayer*			Get_Layer(_uint iSceneNum, const _tchar* tagLayer);
 
 public:
 	_int Update(_float fDeltaTime);

@@ -90,12 +90,48 @@ HRESULT CObjectMgr::Clear_Scene_GameObjects(_uint eSceneNum)
 	return S_OK;
 }
 
+CComponent * CObjectMgr::Get_Commponent_By_LayerIndex(_uint eSceneNum, const _tchar * tagLayer, const _tchar* tagComponet,  _uint iLayerIndex)
+{
+	if (eSceneNum >= m_iMaxSceneNum || m_mapLayer == nullptr)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(eSceneNum, tagLayer);
+
+	if (pLayer == nullptr)
+		return nullptr;
+
+	return pLayer->Get_Commponent_By_LayerIndex(tagComponet, iLayerIndex);;
+}
+
+CGameObject * CObjectMgr::Get_GameObject_By_LayerIndex(_uint eSceneNum, const _tchar * tagLayer, _uint iLayerIndex)
+{
+	if (eSceneNum >= m_iMaxSceneNum || m_mapLayer == nullptr)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(eSceneNum, tagLayer);
+
+	if (pLayer == nullptr)
+		return nullptr;
+
+	return pLayer->Get_GameObject_By_LayerIndex(iLayerIndex);;
+}
+
+CLayer * CObjectMgr::Get_Layer(_uint iSceneNum, const _tchar * tagLayer)
+{
+	if (iSceneNum >= m_iMaxSceneNum || m_mapLayer == nullptr)
+		return nullptr;
+
+	return Find_Layer(iSceneNum, tagLayer);
+}
+
 _int CObjectMgr::Update(_float fDeltaTime)
 {
-	for (_uint eSceneNym = 0 ; eSceneNym<m_iMaxSceneNum; eSceneNym++)
+	for (_uint eSceneNym = 0 ; eSceneNym < m_iMaxSceneNum; eSceneNym++)
 	{
+
 		for (auto& pair : m_mapLayer[eSceneNym]) 
 		{
+
 			if (pair.second->Update(fDeltaTime) < 0)
 				return -1;
 

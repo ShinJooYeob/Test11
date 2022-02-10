@@ -46,6 +46,8 @@ _int CTerrainGround::Update(_float fDeltaTime)
 	if (FAILED(__super::Update(fDeltaTime)))
 		return E_FAIL;
 
+
+
 	return _int();
 }
 

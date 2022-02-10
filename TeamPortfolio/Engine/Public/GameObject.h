@@ -2,6 +2,7 @@
 #include "Base.h"
 
 BEGIN(Engine)
+
 class ENGINE_DLL CGameObject abstract : public CBase
 {
 protected:
@@ -19,6 +20,7 @@ public:
 	virtual _int LateRender();
 
 
+	class CComponent* Find_Components(const _tchar* tagComponent);
 
 protected:
 	map<const _tchar*, class CComponent*>	m_mapComponets;
@@ -29,7 +31,6 @@ protected:
 
 protected:
 	HRESULT Add_Component(_uint iScenenNum, const _tchar* tagPrototype,const _tchar* tagComponent, CComponent** ppOut , void* pArg =nullptr);
-	CComponent* Find_Components(const _tchar* tagComponent);
 	
 
 public:

@@ -17,7 +17,7 @@ public:
 	}TERRAINDESC;
 
 public:
-	HRESULT PointInTerrain(_float3* pOut, _float3 vPos);
+	HRESULT PointInTerrain(_float3* pOut, _float3 vPos,_Matrix TerrainInversWorldMatrix);
 
 private:
 	explicit CVIBuffer_Terrain(LPDIRECT3DDEVICE9 pGraphicDevice);

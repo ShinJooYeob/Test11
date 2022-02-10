@@ -90,7 +90,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		if (fTimeAcc > FPS)
 		{
-			fTimeAcc = 0.f;
 
 			if (pMainApp->Update(pGameInstance->Get_DeltaTime(TEXT("Timer_60fps"))) < 0)
 				MSGBOX("Failed to Update");

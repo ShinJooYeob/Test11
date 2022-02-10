@@ -63,9 +63,20 @@ _int CPlayer::Update(_float fDeltaTime)
 		m_ComTransform->Move_Right(fDeltaTime);
 	}
 
-	_float3 vResult;
-	if (!FAILED(m_TerrainBuffer->PointInTerrain(&vResult, m_ComTransform->Get_MatrixState(CTransform::STATE_POS))))
-		m_ComTransform->Set_MatrixState(CTransform::STATE_POS, vResult);
+	if (pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Press)
+	{
+
+		 
+		if (!m_fLevitationTime && pInstance->Get_DIKeyState(DIK_SPACE) & DIS_Down)
+		{
+			m_ComTransform->MovetoTarget(m_ComTransform->Get_MatrixState(CTransform::STATE_POS) + _float3(0, 1.f, 0), fDeltaTime);
+		
+		}
+		else if(m_fLevitationTime > 0 && m_fLevitationTime < 0.5f)
+		{
+			m_ComTransform->MovetoTarget(m_ComTransform->Get_MatrixState(CTransform::STATE_POS) + _float3(0, 1.f, 0), m_fLevitationTime);
+		}
+	}
 
 
 	return _int();
@@ -76,10 +87,16 @@ _int CPlayer::LateUpdate(_float fDeltaTime)
 	if (FAILED(__super::LateUpdate(fDeltaTime)))
 		return E_FAIL;
 
+
+	if (FAILED(Set_PosOnTerrain(fDeltaTime)))
+	{
+		return E_FAIL;
+	}
+
+
 	//렌더링 그룹에 넣어주는 역활
 	if (FAILED(m_ComRenderer->Add_RenderGroup(CRenderer::RENDER_NONALPHA, this)))
 		return E_FAIL;
-
 
 	return _int();
 }
@@ -128,13 +145,62 @@ HRESULT CPlayer::SetUp_Components()
 		return E_FAIL;
 
 
-	if (FAILED(__super::Add_Component(SCENEID::SCENE_STAGESELECT, TEXT("Prototype_Component_VIBuffer_Terrain128x128"), TEXT("Com_TerrainBuffer"), (CComponent**)&m_TerrainBuffer)))
+
+
+	return S_OK;
+}
+
+HRESULT CPlayer::Jump(_float fDeltaTime)
+{
+	return E_NOTIMPL;
+}
+
+HRESULT CPlayer::Set_PosOnTerrain(_float fDeltaTime)
+{
+
+	CGameInstance* pGameInstance = GetSingle(CGameInstance);
+
+	
+	CGameObject* pTerrain= pGameInstance->Get_GameObject_By_LayerIndex(SCENEID::SCENE_STAGESELECT, TEXT("Layer_Terrain"));
+
+	if (pTerrain == nullptr)
 		return E_FAIL;
+
+	CVIBuffer_Terrain* pTerrainBuffer =(CVIBuffer_Terrain*)(pTerrain->Find_Components(TEXT("Com_VIBuffer")));
+	CTransform*		pTerrainTransform = (CTransform*)(pTerrain->Find_Components(TEXT("Com_Transform")));
+
+	
+
+	_float3 vResultPos;
+
+	_float3 vPlayerPos = m_ComTransform->Get_MatrixState(CTransform::STATE_POS);
+
+	if (!FAILED(pTerrainBuffer->PointInTerrain(&vResultPos, vPlayerPos, pTerrainTransform->Get_InverseWorldMatrix())))
+	{
+		if (vPlayerPos.y > vResultPos.y) //지형보다 플레이어가 위에 있다면
+		{
+			m_fLevitationTime += fDeltaTime;
+			vResultPos.y = vPlayerPos.y - m_fLevitationTime;
+		}
+		else //지형에 닿았다면
+		{
+			m_fLevitationTime = 0;
+		}
+		m_ComTransform->Set_MatrixState(CTransform::STATE_POS, vResultPos);
+
+	}
+	else //지형 밖으로 넘어갔을 경우
+	{
+		m_fLevitationTime = 0;
+
+	}
 
 
 
 	return S_OK;
 }
+
+
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDevice, void * pArg)
 {
@@ -169,8 +235,6 @@ CGameObject * CPlayer::Clone(void * pArg)
 void CPlayer::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_TerrainBuffer);
 
 
 	Safe_Release(m_ComTexture);

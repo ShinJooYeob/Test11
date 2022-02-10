@@ -6,6 +6,7 @@
 BEGIN(Engine)
 
 class CGameObject;
+class CComponent;
 
 class CLayer :public CBase
 {
@@ -19,6 +20,8 @@ public:
 	_int Update(_float fDeltaTime);
 	_int LateUpdate(_float fDeltaTime);
 
+	CComponent* Get_Commponent_By_LayerIndex(const _tchar* tagComponet, _uint iLayerIndex);
+	CGameObject* Get_GameObject_By_LayerIndex(_uint iLayerIndex);
 
 private:
 	list< CGameObject*>			m_ObjectList;

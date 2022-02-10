@@ -162,9 +162,11 @@ HRESULT CVIBuffer_Terrain::Initialize_Clone(void * pArg)
 	return S_OK;
 }
 
-HRESULT CVIBuffer_Terrain::PointInTerrain(_float3 * pOut, _float3 vPos )
+HRESULT CVIBuffer_Terrain::PointInTerrain(_float3 * pOut, _float3 vPos,_Matrix TerrainInversWorldMatrix)
 {
 	_uint iIndex[4];
+
+	vPos = vPos.PosVector_Matrix(TerrainInversWorldMatrix);
 
 	if (vPos.x < 0 || vPos.x >(m_TerrainDesc.iRow + 1) ||
 		vPos.z < 0 || vPos.z >(m_TerrainDesc.iCol + 1))
@@ -175,9 +177,6 @@ HRESULT CVIBuffer_Terrain::PointInTerrain(_float3 * pOut, _float3 vPos )
 	iIndex[2] = iIndex[0] + (m_TerrainDesc.iRow + 1);
 	iIndex[3] = iIndex[2] + 1;
 
-	//if (iIndex[0] < 0	|| iIndex[0] >= (m_TerrainDesc.iRow + 1) *(m_TerrainDesc.iCol + 1) ||
-	//	iIndex[3] < 0	|| iIndex[3] >= (m_TerrainDesc.iRow + 1) *(m_TerrainDesc.iCol + 1))
-	//	return E_FAIL;
 
 	D3DXPLANE tPlane;
 
@@ -198,7 +197,7 @@ HRESULT CVIBuffer_Terrain::PointInTerrain(_float3 * pOut, _float3 vPos )
 
 	m_pVB->Unlock();
 
-	*pOut = _float3(vPos.x, (tPlane.a * vPos.x + tPlane.c * vPos.z + tPlane.d) / -tPlane.b, vPos.z);
+	*pOut = _float3(vPos.x, (tPlane.a * vPos.x + tPlane.c * vPos.z + tPlane.d) / -tPlane.b, vPos.z).PosVector_Matrix(TerrainInversWorldMatrix.InverseMatrix());
 
 
 

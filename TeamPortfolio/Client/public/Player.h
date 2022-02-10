@@ -28,16 +28,22 @@ public:
 	virtual _int LateRender()override;
 
 
+
 private:
 	CTexture*				m_ComTexture = nullptr;
 	CTransform*				m_ComTransform = nullptr;
 	CVIBuffer_Rect*			m_ComVIBuffer = nullptr;
 	CRenderer*				m_ComRenderer = nullptr;
 
-	CVIBuffer_Terrain*		m_TerrainBuffer = nullptr;
+
+	_float					m_fLevitationTime = 0;
+
 
 private:
 	HRESULT			SetUp_Components();
+	HRESULT			Jump(_float fDeltaTime);
+	HRESULT			Set_PosOnTerrain(_float fDeltaTime);
+
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphicDevice, void* pArg = nullptr);

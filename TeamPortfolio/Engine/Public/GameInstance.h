@@ -13,6 +13,7 @@ class CScene;
 class CThreadMgr; 
 class CObjectMgr;
 class CGameObject;
+class CLayer;
 
 class ENGINE_DLL CGameInstance final :public CBase
 {
@@ -33,6 +34,10 @@ public:/*엔진이 돌아갈 때 전반적으로 처리해줘야할 것들*/
 public:/* For.ObjectMgr */
 	HRESULT			Add_GameObject_Prototype(const _tchar* tagPrototype, CGameObject* pPrototype);
 	HRESULT			Add_GameObject_To_Layer(_uint eSceneNum, const _tchar* tagLayer, const _tchar* tagPrototype, void* pArg = nullptr);
+	CComponent*		Get_Commponent_By_LayerIndex(_uint eSceneNum, const _tchar* tagLayer, const _tchar* tagComponet, _uint iLayerIndex = 0);
+	CGameObject*	Get_GameObject_By_LayerIndex(_uint eSceneNum, const _tchar* tagLayer, _uint iLayerIndex = 0);
+	CLayer*			Get_Layer(_uint eSceneNum, const _tchar* tagLayer);
+
 
 public: /*For.ComMgr*/
 	HRESULT			Add_Component_Prototype(_uint eSceneIdx, const _tchar* tagPrototypeComponent, CComponent* pComponenet);
