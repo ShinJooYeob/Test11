@@ -9,7 +9,7 @@ CBase::CBase()
 
 _ulong CBase::AddRef()
 {
-	return ++m_dwRefCnt;
+	return ++m_dwRefCnt; 
 }
 
 _ulong CBase::Release()
